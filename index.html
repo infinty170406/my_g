@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour Gabriel ❤️</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+    <!-- Custom Elegant Glow Cursor -->
+    <div class="custom-cursor" id="customCursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-halo"></div>
+    </div>
+    
+    
+    <!-- Background Canvas (Bokeh, lights, rare hearts, falling petals) -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Main Container -->
+    <main class="app-container" id="appContainer">
+        
+        <!-- SCENE 1: Welcome Page (Cinematic Moon) -->
+        <section class="scene active" id="scene-welcome">
+            <div class="welcome-content">
+                <h1 class="welcome-title">Une petite chose pour toi...</h1>
+                <p class="welcome-subtitle">Gabriel, j'aimerais que tu prennes quelques secondes pour regarder ceci ❤️</p>
+                
+                <!-- Giant Glowing Moon (Serves as the Start button) -->
+                <div class="moon-container">
+                    <div class="giant-moon" id="moonStartBtn">
+                        <div class="moon-crater crater-1"></div>
+                        <div class="moon-crater crater-2"></div>
+                        <div class="moon-crater crater-3"></div>
+                        <div class="moon-glow"></div>
+                        <div class="moon-text">Commencer</div>
+                    </div>
+                </div>
+                
+                <!-- Elegant Silhouette decoration -->
+                <div class="welcome-silhouette">
+                    <svg viewBox="0 0 100 50" class="silhouette-svg">
+                        <path d="M 10 50 Q 25 35 40 42 T 70 38 T 90 50 Z" fill="rgba(255, 90, 121, 0.05)"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCENE 2: Cinematic Countdown Page (Black Screen) -->
+        <section class="scene" id="scene-countdown">
+            <div class="countdown-container">
+                <div class="countdown-number" id="countdownNumber">3</div>
+            </div>
+        </section>
+
+        <!-- SCENE 3: Main Envelope & Letter -->
+        <section class="scene" id="scene-letter">
+            <div class="letter-perspective-wrapper">
+                
+                <!-- The Envelope -->
+                <div class="envelope-wrapper" id="envelopeWrapper">
+                    <div class="envelope" id="envelope">
+                        <div class="envelope-back"></div>
+                        <div class="letter-card-preview" id="letterPreview">
+                            <span class="preview-heart">❤️</span>
+                        </div>
+                        <div class="envelope-front"></div>
+                        <div class="envelope-top" id="envelopeTop"></div>
+                        <div class="envelope-seal" id="envelopeSeal">
+                            <div class="seal-inner">Pour Gabriel</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Glassmorphic Letter Card -->
+                <div class="glass-card hidden" id="letterCard">
+                    <div class="card-sparkles" id="cardSparkles"></div>
+                    
+                    <!-- Decorative corner flower vectors -->
+                    <div class="card-decorator decorator-top-right">🌸</div>
+                    <div class="card-decorator decorator-bottom-left">🌸</div>
+
+                    <div class="letter-content-wrapper">
+                        <!-- Dynamic Narrative Lines Container -->
+                        <div class="narrative-container" id="narrativeContainer">
+                            <!-- Injected by script.js phrase-by-phrase -->
+                        </div>
+
+                        <!-- Buttons Container (Capsule style) -->
+                        <div class="letter-buttons hidden" id="letterButtons">
+                            <button class="capsule-btn accept-btn" id="acceptBtn">
+                                <span class="btn-shine"></span>
+                                <span class="btn-emoji">❤️</span> Je te pardonne
+                            </button>
+                            
+                            <div class="escape-btn-wrapper" id="escapeBtnWrapper">
+                                <button class="capsule-btn decline-btn" id="declineBtn">
+                                    <span class="btn-emoji">🙈</span> Pas encore
+                                </button>
+                                <div class="escape-tooltip" id="escapeTooltip">Hihi 😜</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- SCENE 4: Success Message -->
+        <section class="scene" id="scene-success">
+            <div class="glass-card success-card" id="successCard">
+                <div class="success-content">
+                    <h2 class="success-title">Merci Gabriel ❤️</h2>
+                    <p class="success-subtitle">ouff, soulagée !</p>
+                    
+                    <div class="beating-heart-wrapper">
+                        <div class="big-beating-heart" id="beatingHeart">❤️</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCENE 5: Final Outro -->
+        <section class="scene" id="scene-final">
+            <div class="final-container">
+                <div class="final-heart">❤️</div>
+                <p class="final-text">Merci d'avoir pris le temps de lire tout ça.</p>
+                <p class="final-text">J'espère que la prochaine fois, je passerai beaucoup plus de temps avec toi.</p>
+                <div class="final-smile">😊</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Canvas Confetti for the explosion -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Main Script -->
+    <script src="script.js?v=3"></script>
+</body>
+</html>

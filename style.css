@@ -1,0 +1,809 @@
+/* ==========================================
+   STYLE SYSTEM & PALETTE (PREMIUM ART DIRECTION)
+   Colors:
+   - Fond: #FFF7F8, #FFE5EC, #FFFDFD (Soft Light Pastel)
+   - Translucence (Glassmorphism): rgba(255, 255, 255, 0.35)
+   - Accent Pink/Red: #FF5A79, #FF8E9E
+   - Accent Gold: #FFD700
+   - Accent Lavender: #E8D7FF
+   - Dark Berry (Text): #2D2230
+   ========================================== */
+
+:root {
+    --color-bg-1: #FFF7F8;
+    --color-bg-2: #FFE5EC;
+    --color-bg-3: #FFFDFD;
+    --color-text: #2D2230;
+    --color-text-muted: #66506B;
+    --color-accent-pink: #FF8E9E;
+    --color-accent-red: #FF5A79;
+    --color-accent-gold: #FFD700;
+    
+    --font-heading: 'Poppins', 'Quicksand', sans-serif;
+    --font-body: 'Quicksand', 'Nunito', sans-serif;
+    
+    --shadow-premium: 0 30px 60px rgba(0, 0, 0, 0.03), 0 10px 25px rgba(255, 90, 121, 0.04);
+    --shadow-btn: 0 10px 25px rgba(255, 90, 121, 0.15);
+    
+    --transition-apple: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================
+   BASE & LAYOUT
+   ========================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background: linear-gradient(135deg, var(--color-bg-1) 0%, var(--color-bg-2) 50%, var(--color-bg-3) 100%);
+    background-attachment: fixed;
+    cursor: none; /* Hide default cursor */
+}
+
+/* Background canvas for soft bokeh & rare cœurs */
+#bgCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.app-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ==========================================
+   SCENE MANAGEMENT
+   ========================================== */
+.scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                visibility 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 20px;
+}
+
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* ==========================================
+   ELEGANT CUSTOM CURSOR
+   ========================================== */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.cursor-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-accent-red);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s linear;
+}
+
+.cursor-halo {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background-color: rgba(255, 90, 121, 0.1);
+    border: 1px solid rgba(255, 90, 121, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), 
+                width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+    pointer-events: none;
+}
+
+/* Cursor scale on hover */
+.custom-cursor.hover .cursor-halo {
+    width: 52px;
+    height: 52px;
+    background-color: rgba(255, 90, 121, 0.15);
+    border-color: rgba(255, 90, 121, 0.3);
+}
+
+@media (max-width: 768px) {
+    .custom-cursor {
+        display: none !important;
+    }
+    body {
+        cursor: auto;
+    }
+}
+/* ==========================================
+   SCENE 1: WELCOME SCREEN (GIANT MOON)
+   ========================================== */
+.welcome-content {
+    text-align: center;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-title {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--color-text);
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+    opacity: 0.9;
+}
+
+.welcome-subtitle {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin-bottom: 45px;
+    font-weight: 400;
+    max-width: 400px;
+}
+
+/* Moon start button design */
+.moon-container {
+    perspective: 1000px;
+    margin-bottom: 20px;
+}
+
+.giant-moon {
+    position: relative;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFFDFD 0%, #FFE9F0 60%, #FFD1E3 100%);
+    box-shadow: 
+        0 0 50px rgba(255, 142, 158, 0.25),
+        0 0 80px rgba(255, 230, 240, 0.4),
+        inset -15px -15px 30px rgba(255, 90, 121, 0.08),
+        inset 10px 10px 20px rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+    animation: moonFloat 6s ease-in-out infinite alternate;
+}
+
+.giant-moon:hover {
+    transform: scale(1.08) rotate(5deg);
+    box-shadow: 
+        0 0 60px rgba(255, 142, 158, 0.4),
+        0 0 100px rgba(255, 230, 240, 0.6),
+        inset -15px -15px 30px rgba(255, 90, 121, 0.05),
+        inset 10px 10px 20px rgba(255, 255, 255, 1);
+}
+
+.moon-glow {
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,230,240,0) 70%);
+    opacity: 0.7;
+    z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+/* Crater details */
+.moon-crater {
+    position: absolute;
+    background: linear-gradient(135deg, rgba(255, 90, 121, 0.06) 0%, rgba(0, 0, 0, 0.02) 100%);
+    border-radius: 50%;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.03), 1px 1px 1px rgba(255,255,255,0.8);
+}
+
+.crater-1 { width: 30px; height: 30px; top: 25%; left: 20%; }
+.crater-2 { width: 18px; height: 18px; top: 60%; left: 35%; }
+.crater-3 { width: 22px; height: 22px; top: 40%; left: 70%; }
+
+.moon-text {
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--color-text-muted);
+    z-index: 5;
+    text-transform: uppercase;
+    opacity: 0.6;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.giant-moon:hover .moon-text {
+    opacity: 0.9;
+    transform: scale(1.05);
+    color: var(--color-accent-red);
+}
+
+.welcome-silhouette {
+    position: absolute;
+    bottom: -10px;
+    width: 100%;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.silhouette-svg {
+    width: 100%;
+    height: auto;
+}
+
+/* ==========================================
+   SCENE 2: CINEMATIC COUNTDOWN (BLACK SCREEN)
+   ========================================== */
+.countdown-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000;
+    z-index: 100;
+}
+
+.countdown-number {
+    font-family: var(--font-heading);
+    font-size: 90px;
+    font-weight: 300;
+    color: #FFFFFF;
+    letter-spacing: -2px;
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+/* ==========================================
+   SCENE 3: THE 3D ENVELOPE
+   ========================================== */
+.letter-perspective-wrapper {
+    perspective: 1200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.envelope-wrapper {
+    width: 320px;
+    height: 220px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+}
+
+.envelope-wrapper:hover {
+    transform: translateY(-8px) rotateX(10deg) rotateY(-5deg);
+}
+
+.envelope {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #FFFDFD;
+    border-radius: 8px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+    transform-style: preserve-3d;
+}
+
+/* Envelope faces */
+.envelope-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #FFF7F8;
+    border: 1px solid rgba(255, 90, 121, 0.05);
+    border-radius: 8px;
+    z-index: 1;
+}
+
+/* The card peeking inside */
+.letter-card-preview {
+    position: absolute;
+    width: 90%;
+    height: 85%;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    top: 5%;
+    left: 5%;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(0);
+    transition: transform 0.4s ease;
+}
+
+.preview-heart {
+    font-size: 24px;
+    animation: pulse 1.5s infinite;
+}
+
+.envelope-front {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 110px solid transparent;
+    border-bottom: 110px solid #FFFDFD;
+    border-left: 160px solid #FFE5EC;
+    border-right: 160px solid #FFE5EC;
+    border-radius: 8px;
+    z-index: 3;
+}
+
+.envelope-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-top: 115px solid #FFFDFD;
+    border-radius: 8px 8px 0 0;
+    transform-origin: top;
+    z-index: 4;
+    transition: transform 0.5s ease-in-out;
+}
+
+.envelope-seal {
+    position: absolute;
+    top: 90px;
+    left: calc(50% - 40px);
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #FFE17D 0%, #FFD700 100%);
+    border-radius: 50%;
+    z-index: 5;
+    box-shadow: 0 6px 12px rgba(255, 215, 0, 0.3), inset 0 2px 4px rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.seal-inner {
+    font-family: var(--font-heading);
+    font-size: 9px;
+    font-weight: 700;
+    color: #8C6B00;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.envelope-wrapper:hover .envelope-seal {
+    transform: scale(1.05);
+}
+
+/* ==========================================
+   GLASSMORPHIC LETTER CARD
+   ========================================== */
+.glass-card {
+    background: rgba(255, 255, 255, 0.32);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 28px;
+    width: 100%;
+    max-width: 580px;
+    min-height: 380px;
+    padding: 50px 40px;
+    box-shadow: var(--shadow-premium);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass-card.hidden {
+    display: none;
+    opacity: 0;
+    transform: scale(0.9) translateY(30px);
+}
+
+.card-decorator {
+    position: absolute;
+    font-size: 20px;
+    opacity: 0.15;
+}
+
+.decorator-top-right { top: 25px; right: 25px; }
+.decorator-bottom-left { bottom: 25px; left: 25px; }
+
+/* Dynamic Narrative Text Layout */
+.narrative-container {
+    width: 100%;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.narrative-phrase {
+    font-family: var(--font-body);
+    font-size: 20px;
+    line-height: 1.8;
+    color: var(--color-text);
+    font-weight: 400;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+    opacity: 0;
+    transform: translateY(10px);
+    display: none;
+}
+
+.narrative-phrase.active {
+    display: block;
+}
+
+/* ==========================================
+   CAPSULE BUTTONS
+   ========================================== */
+.letter-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+    margin-top: 15px;
+    transition: opacity 0.8s ease;
+}
+
+.letter-buttons.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(15px);
+}
+
+.capsule-btn {
+    position: relative;
+    border: none;
+    padding: 15px 35px;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition-apple);
+    overflow: hidden;
+}
+
+/* Primary Glassy Pink Button */
+.accept-btn {
+    background: linear-gradient(135deg, #FF758F 0%, #FF5A79 100%);
+    color: #FFFFFF;
+    box-shadow: 0 10px 25px rgba(255, 90, 121, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.accept-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(255, 90, 121, 0.35);
+}
+
+/* Glossy highlight line */
+.btn-shine {
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.25) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    transition: 0.75s;
+    pointer-events: none;
+}
+
+.accept-btn:hover .btn-shine {
+    left: 125%;
+}
+
+/* Secondary Matte Lavender Button */
+.decline-btn {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    color: var(--color-text-muted);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.02);
+}
+
+.decline-btn:hover {
+    background: rgba(255, 255, 255, 0.85);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.escape-btn-wrapper {
+    position: relative;
+    display: inline-block;
+    z-index: 10;
+}
+
+/* Escape tooltip speech bubble */
+.escape-tooltip {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: var(--color-accent-pink);
+    border: 1px solid rgba(255, 142, 158, 0.25);
+    padding: 6px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    pointer-events: none;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 50;
+}
+
+.escape-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+}
+
+.escape-tooltip.show {
+    transform: translateX(-50%) scale(1);
+}
+
+/* ==========================================
+   SCENE 4: SUCCESS MESSAGE
+   ========================================== */
+.success-card {
+    background: rgba(255, 255, 255, 0.35);
+    max-width: 500px;
+    padding: 50px 30px;
+}
+
+.success-title {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--color-accent-red);
+    margin-bottom: 8px;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+}
+
+.success-subtitle {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-bottom: 25px;
+}
+
+.beating-heart-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    width: 100%;
+}
+
+.big-beating-heart {
+    font-size: 80px;
+    display: inline-block;
+    filter: drop-shadow(0 10px 20px rgba(255, 90, 121, 0.25));
+    animation: bigPulse 0.9s infinite alternate cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Golden moments body style */
+.golden-moment {
+    background: linear-gradient(135deg, #FFFDFD 0%, #FFF3D4 50%, #FFEFC7 100%) !important;
+}
+
+/* ==========================================
+   SCENE 5: FINAL OUTRO
+   ========================================== */
+.final-container {
+    text-align: center;
+    padding: 30px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.final-heart {
+    font-size: 50px;
+    margin-bottom: 10px;
+    animation: pulse 1.5s infinite;
+}
+
+.final-text {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--color-text);
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.final-smile {
+    font-size: 45px;
+    margin-top: 10px;
+    animation: smileFloat 2s ease-in-out infinite alternate;
+}
+
+/* ==========================================
+   CARD SPARKLES
+   ========================================== */
+.card-sparkles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.sparkle-star {
+    position: absolute;
+    font-size: 13px;
+    color: var(--color-accent-gold);
+    animation: sparkleBlink 1.5s infinite alternate;
+    pointer-events: none;
+}
+
+/* ==========================================
+   KEYFRAME ANIMATIONS
+   ========================================== */
+@keyframes moonFloat {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-12px) rotate(2deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bigPulse {
+    0% { transform: scale(0.9); }
+    100% { transform: scale(1.1); }
+}
+
+@keyframes smileFloat {
+    0% { transform: translateY(0) rotate(-4deg); }
+    100% { transform: translateY(-6px) rotate(4deg); }
+}
+
+@keyframes sparkleBlink {
+    0% { opacity: 0.1; transform: scale(0.6) rotate(0deg); }
+    100% { opacity: 0.8; transform: scale(1.1) rotate(90deg); }
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 480px) {
+    .welcome-title {
+        font-size: 26px;
+    }
+    .welcome-subtitle {
+        font-size: 14px;
+        margin-bottom: 35px;
+    }
+    .giant-moon {
+        width: 140px;
+        height: 140px;
+    }
+    .envelope-wrapper {
+        width: 270px;
+        height: 185px;
+    }
+    .envelope-front {
+        border-top-width: 92px;
+        border-bottom-width: 92px;
+        border-left-width: 135px;
+        border-right-width: 135px;
+    }
+    .envelope-top {
+        border-left-width: 135px;
+        border-right-width: 135px;
+        border-top-width: 96px;
+    }
+    .envelope-seal {
+        top: 75px;
+        left: calc(50% - 30px);
+        width: 60px;
+        height: 60px;
+    }
+    .glass-card {
+        padding: 40px 25px;
+        border-radius: 20px;
+    }
+    .narrative-phrase {
+        font-size: 17px;
+        line-height: 1.6;
+    }
+    .letter-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .capsule-btn {
+        width: 100%;
+        padding: 13px 25px;
+        font-size: 15px;
+    }
+    .success-title {
+        font-size: 26px;
+    }
+    .final-text {
+        font-size: 17px;
+    }
+}
