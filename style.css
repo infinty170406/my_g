@@ -86,8 +86,7 @@ html, body {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                visibility 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: visibility 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     padding: 20px;
 }
 
@@ -149,6 +148,95 @@ html, body {
         cursor: auto;
     }
 }
+
+/* ==========================================
+   MUSIC TOGGLE BUTTON
+   ========================================== */
+.music-control {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transition: var(--transition-apple);
+}
+
+.music-control:hover {
+    transform: scale(1.08) rotate(15deg);
+    background-color: rgba(255, 255, 255, 0.7);
+    border-color: rgba(255, 255, 255, 0.9);
+}
+
+.music-icon-wrapper {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.music-note {
+    font-size: 18px;
+    color: var(--color-accent-pink);
+    transition: opacity 0.3s ease;
+}
+
+.music-mute-line {
+    position: absolute;
+    width: 110%;
+    height: 2px;
+    background-color: var(--color-accent-red);
+    border-radius: 1px;
+    transform: rotate(45deg) scaleX(0);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center;
+}
+
+.music-control.muted .music-mute-line {
+    transform: rotate(45deg) scaleX(1);
+}
+
+.music-control.muted .music-note {
+    opacity: 0.4;
+}
+
+.music-tooltip {
+    position: absolute;
+    right: 60px;
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--color-text);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    opacity: 0;
+    transform: translateX(10px);
+    transition: var(--transition-apple);
+    pointer-events: none;
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.music-control:hover .music-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+}
+
 /* ==========================================
    SCENE 1: WELCOME SCREEN (GIANT MOON)
    ========================================== */

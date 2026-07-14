@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursorDot = customCursor?.querySelector('.cursor-dot');
     const cursorHalo = customCursor?.querySelector('.cursor-halo');
     
+    const musicControl = document.getElementById('musicControl');
+    const bgMusic = document.getElementById('bgMusic');
+    
     const sceneWelcome = document.getElementById('scene-welcome');
     const sceneCountdown = document.getElementById('scene-countdown');
     const sceneLetter = document.getElementById('scene-letter');
@@ -86,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Cursor hover states
-    const hoverElements = document.querySelectorAll('button, .capsule-btn, .giant-moon, .envelope-wrapper');
+    const hoverElements = document.querySelectorAll('button, .capsule-btn, .giant-moon, .envelope-wrapper, .music-control');
     hoverElements.forEach(elem => {
         elem.addEventListener('mouseenter', () => {
             if (customCursor) customCursor.classList.add('hover');
@@ -295,6 +298,136 @@ document.addEventListener('DOMContentLoaded', () => {
     animateParticles();
 
     // ==========================================
+    // AUDIO ENGINE (Web Audio API Synthesizer Fallback)
+    // ==========================================
+    let audioCtx = null;
+    let isSynthPlaying = false;
+    let synthIntervalId = null;
+    let isMuted = true;
+    let usingFallback = false;
+
+    // Music Box Melody data
+    const melodyNotes = [
+        { pitch: 349.23, duration: 0.4, delay: 0.0 }, // F4
+        { pitch: 440.00, duration: 0.4, delay: 0.4 }, // A4
+        { pitch: 523.25, duration: 0.4, delay: 0.8 }, // C5
+        { pitch: 659.25, duration: 0.8, delay: 1.2 }, // E5
+        
+        { pitch: 261.63, duration: 0.4, delay: 2.0 }, // C4
+        { pitch: 329.63, duration: 0.4, delay: 2.4 }, // E4
+        { pitch: 392.00, duration: 0.4, delay: 2.8 }, // G4
+        { pitch: 493.88, duration: 0.8, delay: 3.2 }, // B4
+        
+        { pitch: 293.66, duration: 0.4, delay: 4.0 }, // D4
+        { pitch: 392.00, duration: 0.4, delay: 4.4 }, // G4
+        { pitch: 493.88, duration: 0.4, delay: 4.8 }, // B4
+        { pitch: 587.33, duration: 0.8, delay: 5.2 }, // D5
+        
+        { pitch: 440.00, duration: 0.4, delay: 6.0 }, // A4
+        { pitch: 523.25, duration: 0.4, delay: 6.4 }, // C5
+        { pitch: 659.25, duration: 0.4, delay: 6.8 }, // E5
+        { pitch: 880.00, duration: 0.8, delay: 7.2 }  // A5
+    ];
+
+    function initAudioContext() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    }
+
+    function playSynthTone(freq, duration, startTime) {
+        if (!audioCtx || isMuted) return;
+
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1400, startTime);
+        filter.Q.setValueAtTime(0.8, startTime);
+
+        gainNode.gain.setValueAtTime(0, startTime);
+        gainNode.gain.linearRampToValueAtTime(0.12, startTime + 0.05);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+        osc.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+    }
+
+    function startSynthLoop() {
+        if (isSynthPlaying) return;
+        isSynthPlaying = true;
+        
+        const playMeasure = () => {
+            if (isMuted) return;
+            const now = audioCtx.currentTime;
+            melodyNotes.forEach(note => {
+                playSynthTone(note.pitch, note.duration, now + note.delay);
+            });
+        };
+
+        playMeasure();
+        synthIntervalId = setInterval(playMeasure, 8000);
+    }
+
+    function stopSynthLoop() {
+        isSynthPlaying = false;
+        if (synthIntervalId) {
+            clearInterval(synthIntervalId);
+            synthIntervalId = null;
+        }
+    }
+
+    function startMusic() {
+        initAudioContext();
+        isMuted = false;
+        
+        musicControl.classList.remove('muted');
+        musicControl.querySelector('.music-tooltip').textContent = "Couper la musique 💖";
+
+        bgMusic.volume = 0.4;
+        bgMusic.play()
+            .then(() => {
+                usingFallback = false;
+                stopSynthLoop();
+            })
+            .catch(err => {
+                console.log("Audio file auto-play failed or file missing. Using Synth fallback.");
+                usingFallback = true;
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                startSynthLoop();
+            });
+    }
+
+    function toggleMusic() {
+        initAudioContext();
+        if (isMuted) {
+            startMusic();
+        } else {
+            isMuted = true;
+            musicControl.classList.add('muted');
+            musicControl.querySelector('.music-tooltip').textContent = "Activer la musique ✨";
+            
+            if (!usingFallback) {
+                bgMusic.pause();
+            } else {
+                stopSynthLoop();
+            }
+        }
+    }
+
+    musicControl.addEventListener('click', toggleMusic);
+
+    // ==========================================
     // TRANSITIONS & SCENE FLOWS (GSAP ELEGANCE)
     // ==========================================
     function switchScene(fromScene, toScene, onComplete = null) {
@@ -328,6 +461,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // SCENE 1: START EXPERIENCES (MOON ZOOM)
     // ==========================================
     moonStartBtn.addEventListener('click', () => {
+        // Start background music
+        startMusic();
+        
         // Premium zoom animation of the Moon
         gsap.to(moonStartBtn, {
             scale: 8,

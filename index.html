@@ -19,7 +19,15 @@
         <div class="cursor-halo"></div>
     </div>
     
-    
+    <!-- Music Controls -->
+    <div class="music-control" id="musicControl" title="Activer/Couper la musique">
+        <div class="music-icon-wrapper">
+            <span class="music-note">🎵</span>
+            <span class="music-mute-line"></span>
+        </div>
+        <span class="music-tooltip">Activer la musique ✨</span>
+    </div>
+
     <!-- Background Canvas (Bokeh, lights, rare hearts, falling petals) -->
     <canvas id="bgCanvas"></canvas>
 
@@ -137,6 +145,11 @@
         </section>
 
     </main>
+
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="audio/sorry.mp3" type="audio/mpeg">
+    </audio>
 
     <!-- GSAP for animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
