@@ -1,161 +1,155 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pour Gabriel ❤️</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=3">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0B0B0D" />
+  <title>My G❣️ — Gabriel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <!-- Custom Elegant Glow Cursor -->
-    <div class="custom-cursor" id="customCursor">
-        <div class="cursor-dot"></div>
-        <div class="cursor-halo"></div>
-    </div>
-    
-    <!-- Music Controls -->
-    <div class="music-control" id="musicControl" title="Activer/Couper la musique">
-        <div class="music-icon-wrapper">
-            <span class="music-note">🎵</span>
-            <span class="music-mute-line"></span>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="grain"></div>
+
+  <audio id="bgMusic" preload="auto" loop>
+    <source src="assets/Justin_Timberlake_-_Mirrors__Lyrics_.MP3" type="audio/mpeg" />
+    <source src="assets/music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <header class="topbar">
+    <div class="brand">My G❣️</div>
+    <button id="musicToggle" class="music-btn" type="button" aria-pressed="false">
+      <span class="music-dot"></span>
+      <span id="musicLabel">Activer la musique</span>
+    </button>
+  </header>
+
+  <main id="experience" class="experience">
+    <section class="scene active" data-scene="0">
+      <div class="content narrow centered">
+        <p class="eyebrow">Pour My G❣️.</p>
+        <h1>Il y a quelque chose que je devais finir par te dire.</h1>
+        <p class="lead muted">Pas parfaitement. Pas facilement. Mais sincèrement.</p>
+        <button class="continue-btn" data-next>Commencer <span>→</span></button>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="1">
+      <div class="content narrow">
+        <p class="eyebrow">My G❣️,</p>
+        <p class="statement">Je ne sais même pas vraiment par où commencer.</p>
+        <p>Parce que je crois que j’ai passé beaucoup trop de temps à essayer de mettre des mots sur quelque chose que je préférais simplement garder pour moi.</p>
+        <button class="continue-btn" data-next>Continuer <span>→</span></button>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="2">
+      <div class="content narrow">
+        <p>Je n’ai pas toujours été très ouverte avec toi.</p>
+        <p>J’ai souvent gardé certaines choses au fond de moi, fait comme si elles n’avaient pas d’importance, comme si je maîtrisais parfaitement ce qui se passait dans ma tête.</p>
+        <p class="statement gold">Et la vérité… c’est que je crois que tu me déstabilises plus que je ne veux bien l’admettre.</p>
+        <button class="continue-btn" data-next>→</button>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="3">
+      <div class="content narrow">
+        <h2>J’aime avoir le contrôle.</h2>
+        <div class="stacked-lines">
+          <span>Sur mes émotions.</span>
+          <span>Sur mes relations.</span>
+          <span>Sur la manière dont les choses évoluent.</span>
         </div>
-        <span class="music-tooltip">Activer la musique ✨</span>
-    </div>
+        <p>Je réfléchis énormément avant de laisser quelqu’un prendre une place dans ma vie.</p>
+        <p>Parce que lorsque je commence réellement à ressentir quelque chose, j’ai peur de me perdre dedans.</p>
+        <p class="statement gold">Et avec toi, c’est différent.</p>
+        <button class="continue-btn" data-next>→</button>
+      </div>
+    </section>
 
-    <!-- Background Canvas (Bokeh, lights, rare hearts, falling petals) -->
-    <canvas id="bgCanvas"></canvas>
+    <section class="scene" data-scene="4">
+      <div class="content narrow">
+        <p class="eyebrow">Le déclic</p>
+        <h2>Je crois que je sais quel moment a tout déplacé.</h2>
+        <p>Ce n’était pas le collier en lui-même.</p>
+        <p>Ce n’était pas un objet magique, ni quelque chose que j’avais décidé de rendre important.</p>
+        <p class="statement">C’était la situation.</p>
+        <p>Le jour où tu m’as remis mon collier Otaku, il s’est passé quelque chose de très simple… mais que je n’ai pas réussi à oublier.</p>
+        <p>Ta manière d’être là. La proximité du moment. Ce que j’ai ressenti sans l’avoir prévu.</p>
+        <p class="statement gold">Je crois que c’est ce jour-là que quelque chose a changé dans ma manière de te regarder.</p>
+        <button class="continue-btn" data-next>Continuer <span>→</span></button>
+      </div>
+    </section>
 
-    <!-- Main Container -->
-    <main class="app-container" id="appContainer">
-        
-        <!-- SCENE 1: Welcome Page (Cinematic Moon) -->
-        <section class="scene active" id="scene-welcome">
-            <div class="welcome-content">
-                <h1 class="welcome-title">Une petite chose pour toi...</h1>
-                <p class="welcome-subtitle">Gabriel, j'aimerais que tu prennes quelques secondes pour regarder ceci ❤️</p>
-                
-                <!-- Giant Glowing Moon (Serves as the Start button) -->
-                <div class="moon-container">
-                    <div class="giant-moon" id="moonStartBtn">
-                        <div class="moon-crater crater-1"></div>
-                        <div class="moon-crater crater-2"></div>
-                        <div class="moon-crater crater-3"></div>
-                        <div class="moon-glow"></div>
-                        <div class="moon-text">Commencer</div>
-                    </div>
-                </div>
-                
-                <!-- Elegant Silhouette decoration -->
-                <div class="welcome-silhouette">
-                    <svg viewBox="0 0 100 50" class="silhouette-svg">
-                        <path d="M 10 50 Q 25 35 40 42 T 70 38 T 90 50 Z" fill="rgba(255, 90, 121, 0.05)"/>
-                    </svg>
-                </div>
-            </div>
-        </section>
+    <section class="scene" data-scene="5">
+      <div class="content narrow">
+        <p>Et peut-être que tout s’est confirmé cette autre fois…</p>
+        <p>quand tu m’as dit que mes paroles t’avaient blessé.</p>
+        <p>Pour une fois, je n’ai pas réussi à simplement passer à autre chose.</p>
+        <p>Je me suis excusée.</p>
+        <p class="statement">Et tu m’as prise dans tes bras.</p>
+        <p>Après ça, quelque chose était définitivement différent.</p>
+        <button class="continue-btn" data-next>→</button>
+      </div>
+    </section>
 
-        <!-- SCENE 2: Cinematic Countdown Page (Black Screen) -->
-        <section class="scene" id="scene-countdown">
-            <div class="countdown-container">
-                <div class="countdown-number" id="countdownNumber">3</div>
-            </div>
-        </section>
+    <section class="scene" data-scene="6">
+      <div class="content centered">
+        <p class="eyebrow">Une question revient souvent.</p>
+        <h2 class="huge">Pourquoi toi ?</h2>
+        <p class="narrow-text">Pourquoi tu occupes autant mes pensées alors que je n’avais absolument rien prévu de tout ça.</p>
+        <button class="continue-btn" data-next>→</button>
+      </div>
+    </section>
 
-        <!-- SCENE 3: Main Envelope & Letter -->
-        <section class="scene" id="scene-letter">
-            <div class="letter-perspective-wrapper">
-                
-                <!-- The Envelope -->
-                <div class="envelope-wrapper" id="envelopeWrapper">
-                    <div class="envelope" id="envelope">
-                        <div class="envelope-back"></div>
-                        <div class="letter-card-preview" id="letterPreview">
-                            <span class="preview-heart">❤️</span>
-                        </div>
-                        <div class="envelope-front"></div>
-                        <div class="envelope-top" id="envelopeTop"></div>
-                        <div class="envelope-seal" id="envelopeSeal">
-                            <div class="seal-inner">Pour Gabriel</div>
-                        </div>
-                    </div>
-                </div>
+    <section class="scene" data-scene="7">
+      <div class="content narrow">
+        <p>Et parfois…</p>
+        <p>après une journée compliquée,</p>
+        <p>avec toutes les tracasseries possibles,</p>
+        <p>je me rends compte que la seule personne que j’ai envie de voir…</p>
+        <p class="huge gold reveal-line">c’est toi.</p>
+        <button class="continue-btn" data-next>→</button>
+      </div>
+    </section>
 
-                <!-- The Glassmorphic Letter Card -->
-                <div class="glass-card hidden" id="letterCard">
-                    <div class="card-sparkles" id="cardSparkles"></div>
-                    
-                    <!-- Decorative corner flower vectors -->
-                    <div class="card-decorator decorator-top-right">🌸</div>
-                    <div class="card-decorator decorator-bottom-left">🌸</div>
+    <section class="scene" data-scene="8">
+      <div class="content narrow">
+        <h2>Ça me fait peur.</h2>
+        <p>Parce que je n’ai pas l’habitude de ressentir les choses de cette manière.</p>
+        <p>Et encore moins de ne pas savoir quoi en faire.</p>
+        <p>Alors parfois je prends de la distance. Je réfléchis trop. Je fais comme si je maîtrisais.</p>
+        <p class="statement">Mais la vérité est beaucoup moins maîtrisée que ça.</p>
+        <button class="continue-btn" data-next>→</button>
+      </div>
+    </section>
 
-                    <div class="letter-content-wrapper">
-                        <!-- Dynamic Narrative Lines Container -->
-                        <div class="narrative-container" id="narrativeContainer">
-                            <!-- Injected by script.js phrase-by-phrase -->
-                        </div>
+    <section class="scene" data-scene="9">
+      <div class="content narrow">
+        <p>Je ne t’écris pas ça pour te mettre une quelconque pression.</p>
+        <p>Ni parce que j’attends une réponse particulière de ta part.</p>
+        <p>J’avais simplement besoin, pour une fois, de ne pas tout garder pour moi.</p>
+        <button class="continue-btn" data-next>→</button>
+      </div>
+    </section>
 
-                        <!-- Buttons Container (Capsule style) -->
-                        <div class="letter-buttons hidden" id="letterButtons">
-                            <button class="capsule-btn accept-btn" id="acceptBtn">
-                                <span class="btn-shine"></span>
-                                <span class="btn-emoji">❤️</span> Je te pardonne
-                            </button>
-                            
-                            <div class="escape-btn-wrapper" id="escapeBtnWrapper">
-                                <button class="capsule-btn decline-btn" id="declineBtn">
-                                    <span class="btn-emoji">🙈</span> Pas encore
-                                </button>
-                                <div class="escape-tooltip" id="escapeTooltip">Hihi 😜</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </section>
+    <section class="scene" data-scene="10">
+      <div class="content narrow centered">
+        <p>Je crois que tu me déstabilises parce que, quelque part, avec toi,</p>
+        <p class="statement">je ne maîtrise plus complètement ce que je ressens.</p>
+        <p>Et peut-être que c’est justement ça qui me fait le plus peur…</p>
+        <p class="huge gold final-line">et qui me plaît le plus.</p>
+        <div class="signature">My G❣️</div>
+      </div>
+    </section>
+  </main>
 
-        <!-- SCENE 4: Success Message -->
-        <section class="scene" id="scene-success">
-            <div class="glass-card success-card" id="successCard">
-                <div class="success-content">
-                    <h2 class="success-title">Merci Gabriel ❤️</h2>
-                    <p class="success-subtitle">ouff, soulagée !</p>
-                    
-                    <div class="beating-heart-wrapper">
-                        <div class="big-beating-heart" id="beatingHeart">❤️</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
-        <!-- SCENE 5: Final Outro -->
-        <section class="scene" id="scene-final">
-            <div class="final-container">
-                <div class="final-heart">❤️</div>
-                <p class="final-text">Merci d'avoir pris le temps de lire tout ça.</p>
-                <p class="final-text">J'espère que la prochaine fois, je passerai beaucoup plus de temps avec toi.</p>
-                <div class="final-smile">😊</div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Audio Element -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="audio/sorry.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- GSAP for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- Canvas Confetti for the explosion -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- Main Script -->
-    <script src="script.js?v=3"></script>
+  <script src="script.js"></script>
 </body>
 </html>
