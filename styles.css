@@ -9,10 +9,15 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-html, body { height: 100%; }
+html, body {
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
 body {
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   /* Désactive le scroll global - les scènes doivent tenir dans la fenêtre */
   overflow: hidden;
   background: var(--bg);
@@ -93,7 +98,12 @@ body::before {
   box-shadow: 0 0 18px rgba(184,155,94,.6);
 }
 
-.experience { min-height: 100vh; position: relative; }
+.experience {
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+}
 .scene {
   position: absolute;
   inset: 0;
@@ -168,6 +178,16 @@ p { font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.7; color: #d4d1cb; ma
 }
 .continue-btn span { display: inline-block; margin-left: 9px; transition: transform .3s ease; }
 .continue-btn:hover span { transform: translateX(5px); }
+
+.restart-btn {
+  margin-top: 36px;
+  display: inline-block;
+  opacity: 0;
+  animation: fadeSignature 2.5s 1.8s forwards;
+}
+.restart-btn:hover span {
+  transform: rotate(-45deg);
+}
 
 .signature {
   margin-top: 40px;

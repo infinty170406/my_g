@@ -15,7 +15,10 @@
   <div class="ambient ambient-b"></div>
   <div class="grain"></div>
 
-  <audio id="bgMusic" src="assets/Justin_Timberlake_-_Mirrors__Lyrics_.MP3" preload="auto" loop playsinline></audio>
+  <audio id="bgMusic" preload="auto" loop playsinline>
+    <source src="assets/Justin_Timberlake_-_Mirrors__Lyrics_.MP3" type="audio/mpeg">
+    <source src="audio/sorry.mp3" type="audio/mpeg">
+  </audio>
 
   <header class="topbar">
     <div class="brand">My G❣️</div>
@@ -49,7 +52,7 @@
         <p>Je n’ai pas toujours été très ouverte avec toi.</p>
         <p>J’ai souvent gardé certaines choses au fond de moi, fait comme si elles n’avaient pas d’importance, comme si je maîtrisais parfaitement ce qui se passait dans ma tête.</p>
         <p class="statement gold">Et la vérité… c’est que je crois que tu me déstabilises plus que je ne veux bien l’admettre.</p>
-        <button class="continue-btn" data-next>→</button>
+        <button class="continue-btn" data-next>Continuer <span>→</span></button>
       </div>
     </section>
 
@@ -64,7 +67,7 @@
         <p>Je réfléchis énormément avant de laisser quelqu’un prendre une place dans ma vie.</p>
         <p>Parce que lorsque je commence réellement à ressentir quelque chose, j’ai peur de me perdre dedans.</p>
         <p class="statement gold">Et avec toi, c’est différent.</p>
-        <button class="continue-btn" data-next>→</button>
+        <button class="continue-btn" data-next>Continuer <span>→</span></button>
       </div>
     </section>
 
@@ -90,7 +93,7 @@
         <p>Je me suis excusée.</p>
         <p class="statement">Et tu m’as prise dans tes bras.</p>
         <p>Après ça, quelque chose était définitivement différent.</p>
-        <button class="continue-btn" data-next>→</button>
+        <button class="continue-btn" data-next>Continuer <span>→</span></button>
       </div>
     </section>
 
@@ -99,7 +102,7 @@
         <p class="eyebrow">Une question revient souvent.</p>
         <h2 class="huge">Pourquoi toi ?</h2>
         <p class="narrow-text">Pourquoi tu occupes autant mes pensées alors que je n’avais absolument rien prévu de tout ça.</p>
-        <button class="continue-btn" data-next>→</button>
+        <button class="continue-btn" data-next>Continuer <span>→</span></button>
       </div>
     </section>
 
@@ -110,7 +113,7 @@
         <p>avec toutes les tracasseries possibles,</p>
         <p>je me rends compte que la seule personne que j’ai envie de voir…</p>
         <p class="huge gold reveal-line">c’est toi.</p>
-        <button class="continue-btn" data-next>→</button>
+        <button class="continue-btn" data-next>Continuer <span>→</span></button>
       </div>
     </section>
 
@@ -121,7 +124,7 @@
         <p>Et encore moins de ne pas savoir quoi en faire.</p>
         <p>Alors parfois je prends de la distance. Je réfléchis trop. Je fais comme si je maîtrisais.</p>
         <p class="statement">Mais la vérité est beaucoup moins maîtrisée que ça.</p>
-        <button class="continue-btn" data-next>→</button>
+        <button class="continue-btn" data-next>Continuer <span>→</span></button>
       </div>
     </section>
 
@@ -130,7 +133,7 @@
         <p>Je ne t’écris pas ça pour te mettre une quelconque pression.</p>
         <p>Ni parce que j’attends une réponse particulière de ta part.</p>
         <p>J’avais simplement besoin, pour une fois, de ne pas tout garder pour moi.</p>
-        <button class="continue-btn" data-next>→</button>
+        <button class="continue-btn" data-next>Continuer <span>→</span></button>
       </div>
     </section>
 
@@ -141,6 +144,7 @@
         <p>Et peut-être que c’est justement ça qui me fait le plus peur…</p>
         <p class="huge gold final-line">et qui me plaît le plus.</p>
         <div class="signature">My G❣️</div>
+        <button class="continue-btn restart-btn" id="restartBtn" type="button">Recommencer <span>↺</span></button>
       </div>
     </section>
   </main>
