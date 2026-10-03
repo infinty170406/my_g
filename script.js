@@ -1,6 +1,5 @@
 const scenes = [...document.querySelectorAll('.scene')];
 const nextButtons = document.querySelectorAll('[data-next]');
-const restartBtn = document.getElementById('restartBtn');
 const progressBar = document.getElementById('progressBar');
 const audio = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
@@ -8,15 +7,10 @@ const musicLabel = document.getElementById('musicLabel');
 
 let currentScene = 0;
 let musicStarted = false;
+let hasSetInitialTime = false;
+let userGestureReady = false;
 
-// Volume par défaut doux
-if (audio) {
-  try {
-    audio.volume = 0.7;
-  } catch (e) {
-    // Les navigateurs mobiles ignorent l'affectation du volume
-  }
-}
+const START_TIME = 325;
 
 function updateProgressBar() {
   if (!progressBar || scenes.length <= 1) return;
@@ -37,10 +31,12 @@ function showScene(index) {
 
 function setMusicUIPlaying() {
   musicStarted = true;
+
   if (musicToggle) {
     musicToggle.classList.add('playing');
     musicToggle.setAttribute('aria-pressed', 'true');
   }
+
   if (musicLabel) {
     musicLabel.textContent = 'Mettre en pause';
   }
@@ -51,22 +47,49 @@ function setMusicUIPaused() {
     musicToggle.classList.remove('playing');
     musicToggle.setAttribute('aria-pressed', 'false');
   }
+
   if (musicLabel) {
     musicLabel.textContent = musicStarted ? 'Reprendre la musique' : 'Activer la musique';
   }
 }
 
+function applyStartTimeIfNeeded() {
+  if (!audio || hasSetInitialTime) return;
+
+  if (audio.duration && !isNaN(audio.duration)) {
+    if (START_TIME < audio.duration) {
+      audio.currentTime = START_TIME;
+    } else {
+      console.warn(`Le fichier audio actuel dure ${Math.round(audio.duration)}s (inférieur à 5m25s). Début à 0s.`);
+      audio.currentTime = 0;
+    }
+    hasSetInitialTime = true;
+    return;
+  }
+
+  try {
+    audio.currentTime = START_TIME;
+    hasSetInitialTime = true;
+  } catch (e) {
+    // En attente du chargement des métadonnées
+  }
+}
+
 async function playMusicFromUserGesture() {
   if (!audio) return false;
+
+  applyStartTimeIfNeeded();
+
   try {
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      await playPromise;
+    if (audio.readyState === 0) {
+      audio.load();
     }
+
+    await audio.play();
     setMusicUIPlaying();
     return true;
   } catch (error) {
-    console.warn('Lecture audio bloquée ou non prête :', error);
+    console.warn('Lecture audio bloquée par le navigateur :', error);
     setMusicUIPaused();
     return false;
   }
@@ -78,8 +101,53 @@ function pauseMusic() {
   setMusicUIPaused();
 }
 
-// Synchronisation native avec les événements de l'élément audio
+function handleFirstUserInteraction() {
+  if (userGestureReady) return;
+  userGestureReady = true;
+
+  if (!audio) return;
+
+  try {
+    audio.volume = 0.7;
+    audio.muted = false;
+  } catch (e) {
+    // Certains navigateurs mobile refusent de modifier le volume avant lecture
+  }
+
+  if (audio.paused && !musicStarted) {
+    if (audio.readyState >= 2) {
+      playMusicFromUserGesture();
+    } else {
+      const retryAudioStart = () => {
+        if (audio && audio.paused && !musicStarted) {
+          playMusicFromUserGesture();
+        }
+      };
+
+      audio.addEventListener('loadedmetadata', retryAudioStart, { once: true });
+      audio.addEventListener('canplay', retryAudioStart, { once: true });
+    }
+  }
+}
+
 if (audio) {
+  audio.volume = 0.7;
+  audio.muted = false;
+
+  audio.addEventListener('loadedmetadata', () => {
+    applyStartTimeIfNeeded();
+    if (userGestureReady && audio.paused && !musicStarted) {
+      playMusicFromUserGesture();
+    }
+  });
+
+  audio.addEventListener('canplay', () => {
+    applyStartTimeIfNeeded();
+    if (userGestureReady && audio.paused && !musicStarted) {
+      playMusicFromUserGesture();
+    }
+  });
+
   audio.addEventListener('play', setMusicUIPlaying);
   audio.addEventListener('pause', setMusicUIPaused);
   audio.addEventListener('error', (event) => {
@@ -92,27 +160,25 @@ if (audio) {
   });
 }
 
-// Boutons "Commencer" et "Continuer"
 nextButtons.forEach((btn) => {
   btn.addEventListener('click', () => {
+    handleFirstUserInteraction();
+
     if (currentScene === 0 && !musicStarted && audio && audio.paused) {
       playMusicFromUserGesture();
     }
-    showScene(currentScene + 1);
+
+    if (currentScene < scenes.length - 1) {
+      showScene(currentScene + 1);
+    }
   });
 });
 
-// Bouton "Recommencer" sur la dernière scène
-if (restartBtn) {
-  restartBtn.addEventListener('click', () => {
-    showScene(0);
-  });
-}
-
-// Bouton de contrôle manuel de la musique
 if (musicToggle) {
   musicToggle.addEventListener('click', (event) => {
     event.stopPropagation();
+    handleFirstUserInteraction();
+
     if (!audio) return;
 
     if (audio.paused) {
@@ -123,35 +189,35 @@ if (musicToggle) {
   });
 }
 
-// Navigation clavier accessible et sans conflit avec le focus des boutons
-document.addEventListener('keydown', (event) => {
-  const isButtonFocused = ['BUTTON', 'A'].includes(document.activeElement?.tagName);
+window.addEventListener('click', handleFirstUserInteraction, { once: true });
+window.addEventListener('touchstart', handleFirstUserInteraction, { once: true });
+window.addEventListener('keydown', handleFirstUserInteraction, { once: true });
 
+document.addEventListener('keydown', (event) => {
   if ((event.key === 'ArrowRight' || event.key === 'ArrowDown' || event.key === 'PageDown') && currentScene < scenes.length - 1) {
     event.preventDefault();
+    handleFirstUserInteraction();
+
     if (currentScene === 0 && !musicStarted && audio && audio.paused) {
       playMusicFromUserGesture();
     }
+
     showScene(currentScene + 1);
   } else if ((event.key === 'ArrowLeft' || event.key === 'ArrowUp' || event.key === 'PageUp') && currentScene > 0) {
     event.preventDefault();
     showScene(currentScene - 1);
-  } else if (event.key === ' ' && !isButtonFocused && currentScene < scenes.length - 1) {
+  } else if (event.key === ' ' && currentScene < scenes.length - 1) {
     event.preventDefault();
+    handleFirstUserInteraction();
+
     if (currentScene === 0 && !musicStarted && audio && audio.paused) {
       playMusicFromUserGesture();
     }
+
     showScene(currentScene + 1);
-  } else if (event.key === 'Home') {
-    event.preventDefault();
-    showScene(0);
-  } else if (event.key === 'End') {
-    event.preventDefault();
-    showScene(scenes.length - 1);
   }
 });
 
-// Support des gestes tactiles (swipe gauche/droite) sur mobile
 let touchStartX = 0;
 let touchStartY = 0;
 let touchEndX = 0;
@@ -174,16 +240,16 @@ function handleSwipe() {
   const diffX = touchEndX - touchStartX;
   const diffY = touchEndY - touchStartY;
 
-  // On vérifie qu'il s'agit d'un glissement horizontal net (au moins 45px et plus horizontal que vertical)
   if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 45) {
     if (diffX < 0 && currentScene < scenes.length - 1) {
-      // Glissement vers la gauche -> scène suivante
+      handleFirstUserInteraction();
+
       if (currentScene === 0 && !musicStarted && audio && audio.paused) {
         playMusicFromUserGesture();
       }
+
       showScene(currentScene + 1);
     } else if (diffX > 0 && currentScene > 0) {
-      // Glissement vers la droite -> scène précédente
       showScene(currentScene - 1);
     }
   }
