@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "coffee-spark-ai-barista-9dec8"
+  },
+  "targets": {
+    "coffee-spark-ai-barista-9dec8": {
+      "hosting": {
+        "my-g-site": [
+          "my-g-gabriel"
+        ]
+      }
+    }
+  }
+}
