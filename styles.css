@@ -189,6 +189,15 @@ p { font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.7; color: #d4d1cb; ma
   transform: rotate(-45deg);
 }
 
+.chill-note {
+  margin-top: 24px;
+  font-size: 0.95rem;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  animation: fadeSignature 2.5s 0.8s forwards;
+}
+
 .signature {
   margin-top: 40px;
   color: var(--muted);
